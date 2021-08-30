@@ -89,10 +89,8 @@ export default function Register() {
       false,
       true
     );
-    console.log(resp);
     if (resp?.status < 300) {
       console.log("Successful response.");
-      // Show success snackbar
     } else {
       setRegistrationError(true);
     }
