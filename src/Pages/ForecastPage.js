@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     margin: theme.spacing(4),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(0),
   },
   margin: {
     margin: theme.spacing(1),
@@ -44,8 +44,8 @@ export default function ForecastPage() {
     high: 82,
     low: 59,
     precipCat: 3,
-    isSnow: true,
-    deadlinePassed: false,
+    isSnow: false,
+    deadlinePassed: true,
   });
 
   const handleChange = (prop) => (event) => {
@@ -67,7 +67,7 @@ export default function ForecastPage() {
       return (
         <Typography variant={"body"} align={"center"} color={"primary"}>
           {days} days, {hours} hours, {minutes} minutes, {seconds} seconds
-          remaining
+          remaining to forecast.
         </Typography>
       );
     }
@@ -106,12 +106,12 @@ export default function ForecastPage() {
       spacing={4}
     >
       <Typography
-        variant={"h5"}
+        variant={"h6"}
         align={"center"}
         color={"primary"}
         className={classes.title}
       >
-        Enter your Forecast
+        Enter your Forecast for
       </Typography>
       <Typography
         variant={"h6"}
@@ -187,7 +187,7 @@ export default function ForecastPage() {
           }}
           disabled={values.deadlinePassed}
         >
-          <option value={false}>Rain</option>
+          <option value={false}>Rain (if applicable)</option>
           <option value={true}>Snow</option>
         </Select>
       </FormControl>

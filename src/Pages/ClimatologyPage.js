@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Grid,
-  makeStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { BackEnd } from "../Utils/HttpClient";
 import { DataGrid } from "@material-ui/data-grid";
 
@@ -36,6 +27,7 @@ export default function ClimatologyPage() {
     BackEnd.get("climatology").then((resp) => {
       if (resp?.status < 300) {
         setClimo(resp.data);
+        console.log(climo);
       }
     });
   }, []);
@@ -53,7 +45,12 @@ export default function ClimatologyPage() {
         Climatology
       </Typography>
       <div className={classes.table}>
-        <DataGrid hideFooterPagination rows={climo} columns={userColumns} />
+        <DataGrid
+          pageSize={31}
+          rows={climo}
+          columns={userColumns}
+          rowsPerPageOptions={[5]}
+        />
       </div>
       {/*<Table className={classes.table} size={"small"}>*/}
       {/*  <TableHead>*/}

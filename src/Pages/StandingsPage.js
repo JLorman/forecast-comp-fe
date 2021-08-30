@@ -16,37 +16,12 @@ export default function StandingsPage() {
     { field: "scoreTotal", headerName: "Total Score", width: 150 },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
-    { field: "scoreTemp", headerName: "Temp Score", width: 150 },
-    { field: "scorePrecip", headerName: "Precip Score", width: 150 },
-    { field: "rankPrecip", headerName: "Precip Rank", width: 150 },
+    { field: "scoreTemp", headerName: "Temp Score", width: 200 },
+    { field: "scorePrecip", headerName: "Precip Score", width: 200 },
+    { field: "rankPrecip", headerName: "Precip Rank", width: 200 },
   ];
 
-  const userStandings = [
-    {
-      id: 1,
-      userId: 1,
-      firstName: "John",
-      lastName: "Lorman",
-      scoreTotal: 1,
-      scoreTemp: 1,
-      scorePrecip: 1,
-      rankTotal: 1,
-      rankTemp: 1,
-      rankPrecip: 1,
-    },
-    {
-      id: 2,
-      userId: 2,
-      firstName: "Brent",
-      lastName: "Skeeter",
-      scoreTotal: 2,
-      scoreTemp: 2,
-      scorePrecip: 2,
-      rankTotal: 2,
-      rankTemp: 2,
-      rankPrecip: 2,
-    },
-  ];
+  const userStandings = [{ id: 0 }];
   return (
     <Grid
       container
@@ -61,9 +36,10 @@ export default function StandingsPage() {
       </Typography>
       <div className={classes.table}>
         <DataGrid
-          hideFooterPagination
+          pageSize={100}
           rows={userStandings}
           columns={userColumns}
+          rowsPerPageOptions={[5]}
         />
       </div>
     </Grid>
