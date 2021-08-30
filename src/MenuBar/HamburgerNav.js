@@ -7,6 +7,7 @@ import TimelineIcon from "@material-ui/icons/Timeline";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import PublicIcon from "@material-ui/icons/Public";
+import GradeIcon from "@material-ui/icons/Grade";
 import { Link } from "react-router-dom";
 import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
 import { StyledMenu, StyledMenuItem } from "./StyledMenu";
@@ -86,6 +87,12 @@ export default function HamburgerNav() {
           </ListItemIcon>
           <ListItemText primary="Climatology" />
         </StyledMenuItem>
+        {/*<StyledMenuItem component={Link} to={"/hof"}>*/}
+        {/*  <ListItemIcon>*/}
+        {/*    <GradeIcon fontSize="small" />*/}
+        {/*  </ListItemIcon>*/}
+        {/*  <ListItemText primary="Hall Of Fame" />*/}
+        {/*</StyledMenuItem>*/}
       </StyledMenu>
     </div>
   );

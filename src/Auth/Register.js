@@ -13,6 +13,7 @@ import { useTheme } from "@material-ui/core/styles";
 import { LoadingSpinner } from "../Utils/LoadingSpinner";
 import { useHistory } from "react-router";
 import { BackEnd } from "../Utils/HttpClient";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,13 +50,37 @@ export default function Register() {
   });
 
   const [requestPending, setRequestPending] = React.useState(false);
+  const [registrationError, setRegistrationError] = React.useState(false);
+  const [validationError, setValidationError] = React.useState(false);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const validateEmail = (email) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
+    }
+    return false;
+  };
+
+  const validateFields = () => {
+    let empty = false;
+    Object.values(values).forEach((v) => {
+      if (v.length == 0) {
+        empty = true;
+      }
+    });
+    return empty;
+  };
+
   const handleSubmit = async () => {
     setRequestPending(true);
+    if (!validateEmail(values.email)) {
+      setValidationError("Invalid Email Address.");
+      setRequestPending(false);
+      return;
+    }
     const resp = await BackEnd.post(
       "auth/register",
       values,
@@ -68,9 +93,25 @@ export default function Register() {
     if (resp?.status < 300) {
       console.log("Successful response.");
       // Show success snackbar
+    } else {
+      setRegistrationError(true);
     }
     history.push("/login");
     setRequestPending(false);
+  };
+
+  const handleBack = () => {
+    history.push("/login");
+  };
+
+  const handleRequestClose = () => {
+    setRegistrationError(false);
+    return;
+  };
+
+  const handleEmailErrorClose = () => {
+    setEmailValidationError(false);
+    return;
   };
 
   return (
@@ -107,7 +148,7 @@ export default function Register() {
       >
         <InputLabel htmlFor="last-name">Last Name</InputLabel>
         <Input
-          id="first-name"
+          id="last-name"
           value={values.lastName}
           onChange={handleChange("lastName")}
           aria-describedby="last-name"
@@ -144,9 +185,29 @@ export default function Register() {
         type="submit"
         color="primary"
         variant="contained"
+        disabled={validateFields()}
       >
-        Submit
+        Sign up
       </Button>
+      <Button
+        className={clsx(classes.margin, classes.button)}
+        onClick={handleBack}
+        type="submit"
+        color="primary"
+        variant="contained"
+      >
+        Back
+      </Button>
+      {registrationError && (
+        <Alert onClose={handleRequestClose} severity="error">
+          Error registering, please try again.
+        </Alert>
+      )}
+      {validationError && (
+        <Alert onClose={handleEmailErrorClose} severity="error">
+          {validationError}
+        </Alert>
+      )}
       {requestPending && <LoadingSpinner color={theme.palette.primary.main} />}
     </Grid>
   );

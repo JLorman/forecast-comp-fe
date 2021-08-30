@@ -29,6 +29,7 @@ export default function AccountNav() {
 
   const handleSignOut = () => {
     dispatch(updateToken(null));
+    sessionStorage.removeItem("jwt");
     history.push("/login");
   };
 
@@ -50,12 +51,12 @@ export default function AccountNav() {
         onClick={handleItemClick}
         onClose={handleClose}
       >
-        <StyledMenuItem component={Link} to={"/profile"}>
-          <ListItemIcon>
-            <AccountCircleIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </StyledMenuItem>
+        {/*<StyledMenuItem component={Link} to={"/profile"}>*/}
+        {/*  <ListItemIcon>*/}
+        {/*    <AccountCircleIcon fontSize="small" />*/}
+        {/*  </ListItemIcon>*/}
+        {/*  <ListItemText primary="Profile" />*/}
+        {/*</StyledMenuItem>*/}
         <StyledMenuItem onClick={handleSignOut}>
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />

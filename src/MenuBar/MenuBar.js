@@ -31,7 +31,7 @@ export default function MenuBar() {
       <Toolbar>
         <HamburgerNav />
         <Typography variant="h6" className={classes.title}>
-          SU DoGG Weather Forecasting Competition
+          SU DoGG Forecast Contest
         </Typography>
         <AccountNav />
       </Toolbar>

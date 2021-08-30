@@ -97,7 +97,7 @@ export const BackEnd = Object.freeze({
  * Fetch token from the session storage.
  */
 const getAuthorizationHeader = async () => {
-  let token = sessionStorage.getItem("jwt");
+  let token = `Bearer ${sessionStorage.getItem("jwt")}`;
   return token;
 };
 

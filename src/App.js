@@ -1,12 +1,12 @@
 import React from "react";
 import MenuBar from "./MenuBar/MenuBar";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import HomePage from "./Pages/HomePage";
 import ForecastPage from "./Pages/ForecastPage";
 import ClimatologyPage from "./Pages/ClimatologyPage";
-import HelpPage from "./Pages/HelpPage";
+import HallOfFame from "./Pages/HallOfFame";
 import HistoryPage from "./Pages/HistoryPage";
 import StandingsPage from "./Pages/StandingsPage";
 import ProfilePage from "./Pages/ProfilePage";
@@ -36,7 +36,7 @@ export default function App() {
             <Route path={"/register"} component={Register} />
             <Route path={"/login"} component={Login} />
             <Route>
-              <Login />
+              <Redirect to={"/login"} />
             </Route>
           </Switch>
         ) : (
@@ -48,10 +48,10 @@ export default function App() {
               <Route path={"/history"} component={HistoryPage} />
               <Route path={"/standings"} component={StandingsPage} />
               <Route path={"/climatology"} component={ClimatologyPage} />
-              <Route path={"/help"} component={HelpPage} />
+              <Route path={"/hof"} component={HallOfFame} />
               <Route path={"/profile"} component={ProfilePage} />
               <Route>
-                <HomePage />
+                <Redirect to={"/"} />
               </Route>
             </Switch>
           </>

@@ -6,9 +6,11 @@ import {
   Input,
   InputLabel,
   makeStyles,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
+import Alert from "@material-ui/lab/Alert";
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 import { LoadingSpinner } from "../Utils/LoadingSpinner";
@@ -49,11 +51,19 @@ export default function Login(props) {
   });
 
   const [requestPending, setRequestPending] = React.useState(false);
+  const [loginError, setLoginError] = React.useState(false);
 
   const history = useHistory();
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleKeyPress = async (event) => {
+    if (event.charCode == 13) {
+      // 13 == 'Enter'
+      await handleLoginClick();
+    }
   };
 
   const handleLoginClick = async () => {
@@ -67,16 +77,20 @@ export default function Login(props) {
       history.push("/");
       // Show success snackbar
     } else {
-      console.log("Unsuccessful response.");
-      // Show error snackbar
+      setLoginError(true);
     }
     setRequestPending(false);
   };
 
   const handleRegisterClick = () => {
-    setRequestPending(false);
-    history.push("/register");
     setRequestPending(true);
+    history.push("/register");
+    setRequestPending(false);
+  };
+
+  const handleClose = () => {
+    setLoginError(false);
+    return;
   };
 
   return (
@@ -93,7 +107,7 @@ export default function Login(props) {
         color={"primary"}
         className={classes.title}
       >
-        SU DoGG Weather Forecasting Competition
+        SU DoGG Forecast Contest
       </Typography>
       <FormControl
         className={clsx(classes.margin, classes.textField)}
@@ -105,6 +119,7 @@ export default function Login(props) {
           value={values.email}
           onChange={handleChange("email")}
           aria-describedby="email-address"
+          onKeyPress={handleKeyPress}
         />
       </FormControl>
       <FormControl
@@ -118,13 +133,13 @@ export default function Login(props) {
           type={values.showPassword ? "text" : "password"}
           value={values.password}
           onChange={handleChange("password")}
+          onKeyPress={handleKeyPress}
         />
       </FormControl>
 
       <Button
         className={clsx(classes.margin, classes.button)}
         onClick={handleLoginClick}
-        type="submit"
         color="primary"
         variant="contained"
       >
@@ -133,12 +148,16 @@ export default function Login(props) {
       <Button
         className={clsx(classes.margin, classes.button)}
         onClick={handleRegisterClick}
-        type="submit"
         color="primary"
         variant="contained"
       >
         Register
       </Button>
+      {loginError && (
+        <Alert onClose={handleClose} severity="error">
+          Invalid email or password
+        </Alert>
+      )}
       {requestPending && <LoadingSpinner color={theme.palette.primary.main} />}
     </Grid>
   );
