@@ -47,7 +47,7 @@ export default function HomePage() {
           Salisbury University DoGG
         </Typography>
         <Typography variant={"h5"} align={"center"} color={"primary"}>
-          Forecast Content
+          Forecast Contest
         </Typography>
         <Typography variant={"h6"} align={"center"} color={"primary"}>
           Rules
