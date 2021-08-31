@@ -48,7 +48,7 @@ export const BackEnd = Object.freeze({
     suppressErrors = true
   ) => {
     const url =
-      process.env.REACT_APP_API_URL || "https://sudogg-be.azurewebsites.net";
+      process.env.REACT_APP_API_URL || "https://sudogg-be.azurewebsites.net/";
     return HttpClient.request(
       method,
       url + path,
