@@ -91,6 +91,23 @@ export const BackEnd = Object.freeze({
       sendAuthorizationHeader,
       suppressErrors
     ),
+  put: async (
+    path,
+    body,
+    additionalHeaders = {},
+    options = {},
+    sendAuthorizationHeader = true,
+    suppressErrors = true
+  ) =>
+    BackEnd.request(
+      "PUT",
+      path,
+      body,
+      additionalHeaders,
+      options,
+      sendAuthorizationHeader,
+      suppressErrors
+    ),
 });
 
 /* Utility methods */

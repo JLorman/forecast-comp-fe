@@ -17,6 +17,7 @@ import { LoadingSpinner } from "../Utils/LoadingSpinner";
 import { BackEnd, HttpClient } from "../Utils/HttpClient";
 import { useDispatch } from "react-redux";
 import { updateToken } from "../redux/actions/token";
+import { updateUser } from "../redux/actions/user";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +59,6 @@ export default function Login(props) {
     BackEnd.get("status").then((resp) => {
       console.log(resp);
       if (resp?.status < 300) {
-        console.log(resp.data);
         setRegistrationAllowed(resp.data.registrationOpen);
       }
     });
@@ -85,6 +85,7 @@ export default function Login(props) {
       const token = resp.data?.accessToken;
       sessionStorage.setItem("jwt", token);
       dispatch(updateToken(token));
+      dispatch(updateUser(resp.data?.user));
       history.push("/");
       // Show success snackbar
     } else {

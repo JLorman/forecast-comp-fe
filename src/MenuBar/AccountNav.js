@@ -8,6 +8,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateToken } from "../redux/actions/token";
+import { updateUser } from "../redux/actions/user";
 
 export default function AccountNav() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,6 +30,7 @@ export default function AccountNav() {
 
   const handleSignOut = () => {
     dispatch(updateToken(null));
+    dispatch(updateUser(null));
     sessionStorage.removeItem("jwt");
     history.push("/login");
   };
