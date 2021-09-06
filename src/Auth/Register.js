@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   FormControl,
@@ -53,6 +53,18 @@ export default function Register() {
   const [registrationError, setRegistrationError] = React.useState(false);
   const [validationError, setValidationError] = React.useState(false);
 
+  const [registrationAllowed, setRegistrationAllowed] = React.useState(false);
+
+  useEffect(() => {
+    BackEnd.get("status").then((resp) => {
+      console.log(resp);
+      if (resp?.status < 300) {
+        console.log(resp.data);
+        setRegistrationAllowed(resp.data.registrationOpen);
+      }
+    });
+  }, []);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -76,6 +88,11 @@ export default function Register() {
 
   const handleSubmit = async () => {
     setRequestPending(true);
+    if (!registrationAllowed) {
+      setValidationError("Registration Closed.");
+      setRequestPending(false);
+      return;
+    }
     if (!validateEmail(values.email)) {
       setValidationError("Invalid Email Address.");
       setRequestPending(false);
