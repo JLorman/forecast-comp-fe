@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   FormControl,
@@ -14,7 +14,7 @@ import Alert from "@material-ui/lab/Alert";
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 import { LoadingSpinner } from "../Utils/LoadingSpinner";
-import { BackEnd } from "../Utils/HttpClient";
+import { BackEnd, HttpClient } from "../Utils/HttpClient";
 import { useDispatch } from "react-redux";
 import { updateToken } from "../redux/actions/token";
 
@@ -52,6 +52,17 @@ export default function Login(props) {
 
   const [requestPending, setRequestPending] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
+  const [registrationAllowed, setRegistrationAllowed] = React.useState(false);
+
+  useEffect(() => {
+    BackEnd.get("status").then((resp) => {
+      console.log(resp);
+      if (resp?.status < 300) {
+        console.log(resp.data);
+        setRegistrationAllowed(resp.data.registrationOpen);
+      }
+    });
+  }, []);
 
   const history = useHistory();
 
@@ -145,14 +156,16 @@ export default function Login(props) {
       >
         Login
       </Button>
-      <Button
-        className={clsx(classes.margin, classes.button)}
-        onClick={handleRegisterClick}
-        color="primary"
-        variant="contained"
-      >
-        Register
-      </Button>
+      {registrationAllowed && (
+        <Button
+          className={clsx(classes.margin, classes.button)}
+          onClick={handleRegisterClick}
+          color="primary"
+          variant="contained"
+        >
+          Register
+        </Button>
+      )}
       {loginError && (
         <Alert onClose={handleClose} severity="error">
           Invalid email or password

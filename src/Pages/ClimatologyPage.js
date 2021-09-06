@@ -27,7 +27,6 @@ export default function ClimatologyPage() {
     BackEnd.get("climatology").then((resp) => {
       if (resp?.status < 300) {
         setClimo(resp.data);
-        console.log(climo);
       }
     });
   }, []);
