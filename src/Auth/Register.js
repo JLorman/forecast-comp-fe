@@ -14,6 +14,7 @@ import { LoadingSpinner } from "../Utils/LoadingSpinner";
 import { useHistory } from "react-router";
 import { BackEnd } from "../Utils/HttpClient";
 import Alert from "@material-ui/lab/Alert";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,9 @@ export default function Register() {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const isRegistrationAllowed = useSelector(
+    (store) => store.status.registrationOpen
+  );
 
   const [values, setValues] = React.useState({
     email: "",
@@ -52,18 +56,6 @@ export default function Register() {
   const [requestPending, setRequestPending] = React.useState(false);
   const [registrationError, setRegistrationError] = React.useState(false);
   const [validationError, setValidationError] = React.useState(false);
-
-  const [registrationAllowed, setRegistrationAllowed] = React.useState(false);
-
-  useEffect(() => {
-    BackEnd.get("status").then((resp) => {
-      console.log(resp);
-      if (resp?.status < 300) {
-        console.log(resp.data);
-        setRegistrationAllowed(resp.data.registrationOpen);
-      }
-    });
-  }, []);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -88,7 +80,7 @@ export default function Register() {
 
   const handleSubmit = async () => {
     setRequestPending(true);
-    if (!registrationAllowed) {
+    if (!isRegistrationAllowed) {
       setValidationError("Registration Closed.");
       setRequestPending(false);
       return;

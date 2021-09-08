@@ -15,6 +15,8 @@ import { useTheme } from "@material-ui/core/styles";
 import { BackEnd } from "../Utils/HttpClient";
 import { LoadingSpinner } from "../Utils/LoadingSpinner";
 import Alert from "@material-ui/lab/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { deadlineReached } from "../redux/actions/status";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,12 +38,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ForecastPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isForecastExpired = useSelector(
+    (store) => store.status.isForecastExpired
+  );
+  const userId = useSelector((store) => store.user.id);
+  const currentDate = useSelector((store) => store.status.currentDate);
 
   const theme = useTheme();
   const [requestPending, setRequestPending] = React.useState(false);
   const [deadlineError, setDeadlineError] = React.useState(false);
   const [successForecast, setSuccessForecast] = React.useState(false);
-  const [currentDate, setCurrentDate] = React.useState(null);
   const [values, setValues] = React.useState({
     // date: "2021-9-9",
     // high: 82,
@@ -52,26 +59,20 @@ export default function ForecastPage() {
   });
 
   useEffect(() => {
-    BackEnd.get("status").then((resp) => {
-      if (resp?.status < 300) {
-        setCurrentDate(resp.data.currentDate);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    BackEnd.get(`entry/${currentDate}`).then((resp) => {
-      if (resp?.status < 300) {
-        setValues({
-          high: resp.data.high,
-          low: resp.data.low,
-          isSnow: resp.data.isSnow,
-          precipCat: resp.data.precipCat,
-          id: resp.data.id,
-        });
-      }
-    });
-  }, [currentDate]);
+    if (userId && currentDate) {
+      BackEnd.get(`entry/${userId}/${currentDate}`).then((resp) => {
+        if (resp?.status < 300) {
+          setValues({
+            high: resp.data.high,
+            low: resp.data.low,
+            isSnow: resp.data.isSnow,
+            precipCat: resp.data.precipCat,
+            id: resp.data.id,
+          });
+        }
+      });
+    }
+  }, [userId, currentDate]);
 
   const handleChange = (prop) => (event) => {
     let value = prop == "isSnow" ? !values.isSnow : event.target.value;
@@ -84,6 +85,7 @@ export default function ForecastPage() {
   deadlineDate.setDate(deadlineDate.getDate() - 1);
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
+      dispatch(deadlineReached());
       return <span>Forecast Deadline Reached</span>;
     } else {
       // Render a countdown
@@ -168,7 +170,7 @@ export default function ForecastPage() {
           shrink: true,
         }}
         value={values.high}
-        disabled={values.deadlinePassed}
+        disabled={isForecastExpired}
         className={classes.margin}
       />
       <TextField
@@ -180,7 +182,7 @@ export default function ForecastPage() {
           shrink: true,
         }}
         value={values.low}
-        disabled={values.deadlinePassed}
+        disabled={isForecastExpired}
         className={classes.margin}
       />
       <FormControl className={classes.margin}>
@@ -193,7 +195,7 @@ export default function ForecastPage() {
             name: "precip",
             id: "precip-cat",
           }}
-          disabled={values.deadlinePassed}
+          disabled={isForecastExpired}
         >
           <option value={1}>1) None</option>
           <option value={2}>2) Trace - .10</option>
@@ -217,7 +219,7 @@ export default function ForecastPage() {
             name: "precip-type",
             id: "precip-type",
           }}
-          disabled={values.deadlinePassed}
+          disabled={isForecastExpired}
         >
           <option value={false}>Rain (if applicable)</option>
           <option value={true}>Snow</option>
@@ -228,7 +230,7 @@ export default function ForecastPage() {
         onClick={handleSubmit}
         color="primary"
         variant="contained"
-        disabled={values.deadlinePassed}
+        disabled={isForecastExpired}
       >
         Save
       </Button>

@@ -6,7 +6,6 @@ import {
   Input,
   InputLabel,
   makeStyles,
-  Snackbar,
   Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
@@ -14,8 +13,8 @@ import Alert from "@material-ui/lab/Alert";
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from "react-router";
 import { LoadingSpinner } from "../Utils/LoadingSpinner";
-import { BackEnd, HttpClient } from "../Utils/HttpClient";
-import { useDispatch } from "react-redux";
+import { BackEnd } from "../Utils/HttpClient";
+import { useDispatch, useSelector } from "react-redux";
 import { updateToken } from "../redux/actions/token";
 import { updateUser } from "../redux/actions/user";
 
@@ -45,6 +44,9 @@ export default function Login(props) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const isRegistrationAllowed = useSelector(
+    (store) => store.status.registrationOpen
+  );
 
   const [values, setValues] = React.useState({
     email: "",
@@ -53,17 +55,6 @@ export default function Login(props) {
 
   const [requestPending, setRequestPending] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
-  const [registrationAllowed, setRegistrationAllowed] = React.useState(false);
-
-  useEffect(() => {
-    BackEnd.get("status").then((resp) => {
-      console.log(resp);
-      if (resp?.status < 300) {
-        setRegistrationAllowed(resp.data.registrationOpen);
-      }
-    });
-  }, []);
-
   const history = useHistory();
 
   const handleChange = (prop) => (event) => {
@@ -157,7 +148,7 @@ export default function Login(props) {
       >
         Login
       </Button>
-      {registrationAllowed && (
+      {isRegistrationAllowed && (
         <Button
           className={clsx(classes.margin, classes.button)}
           onClick={handleRegisterClick}

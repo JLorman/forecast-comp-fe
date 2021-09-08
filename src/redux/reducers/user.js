@@ -21,9 +21,7 @@ const user = (
 ) => {
   switch (type) {
     case UPDATE_USER:
-      return {
-        payload,
-      };
+      return payload;
     default:
       return state;
   }

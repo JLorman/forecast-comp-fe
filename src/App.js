@@ -12,7 +12,10 @@ import StandingsPage from "./Pages/StandingsPage";
 import ProfilePage from "./Pages/ProfilePage";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { BackEnd } from "./Utils/HttpClient";
+import { updateUser } from "./redux/actions/user";
+import { updateStatus } from "./redux/actions/status";
 
 const salisbury = createTheme({
   palette: {
@@ -26,14 +29,34 @@ const salisbury = createTheme({
 });
 
 export default function App() {
+  const dispatch = useDispatch();
   const token = useSelector((store) => store.token);
+  const isRegistrationAllowed = useSelector(
+    (store) => store.status.registrationOpen
+  );
+
+  BackEnd.get("status").then((resp) => {
+    if (resp?.status < 300) {
+      console.log(resp.data);
+      dispatch(updateStatus(resp.data));
+    }
+  });
+  if (token) {
+    BackEnd.get("user/me").then((resp) => {
+      if (resp?.status < 300) {
+        dispatch(updateUser(resp.data));
+      }
+    });
+  }
 
   return (
     <MuiThemeProvider theme={salisbury}>
       <BrowserRouter>
         {!token ? (
           <Switch>
-            <Route path={"/register"} component={Register} />
+            {isRegistrationAllowed && (
+              <Route path={"/register"} component={Register} />
+            )}
             <Route path={"/login"} component={Login} />
             <Route>
               <Redirect to={"/login"} />
