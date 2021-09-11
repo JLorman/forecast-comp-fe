@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BackEnd } from "./Utils/HttpClient";
 import { updateUser } from "./redux/actions/user";
 import { updateStatus } from "./redux/actions/status";
+import AdminPage from "./Pages/AdminPage";
 
 const salisbury = createTheme({
   palette: {
@@ -31,6 +32,7 @@ const salisbury = createTheme({
 export default function App() {
   const dispatch = useDispatch();
   const token = useSelector((store) => store.token);
+  const isAdmin = useSelector((store) => store.user?.isAdmin);
   const isRegistrationAllowed = useSelector(
     (store) => store.status.registrationOpen
   );
@@ -73,6 +75,7 @@ export default function App() {
               <Route path={"/climatology"} component={ClimatologyPage} />
               <Route path={"/hof"} component={HallOfFame} />
               <Route path={"/profile"} component={ProfilePage} />
+              {isAdmin && <Route path={"/admin"} component={AdminPage} />}
               <Route>
                 <Redirect to={"/"} />
               </Route>
