@@ -16,6 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { BackEnd } from "./Utils/HttpClient";
 import { updateUser } from "./redux/actions/user";
 import { updateStatus } from "./redux/actions/status";
+import AdminPage from "./Pages/Admin/AdminPage";
+import AdminForecastPage from "./Pages/Admin/AdminForecastPage";
+import AdminUserPage from "./Pages/Admin/AdminUserPage";
 
 const salisbury = createTheme({
   palette: {
@@ -31,6 +34,7 @@ const salisbury = createTheme({
 export default function App() {
   const dispatch = useDispatch();
   const token = useSelector((store) => store.token);
+  const isAdmin = useSelector((store) => store.user?.isAdmin);
   const isRegistrationAllowed = useSelector(
     (store) => store.status.registrationOpen
   );
@@ -73,6 +77,22 @@ export default function App() {
               <Route path={"/climatology"} component={ClimatologyPage} />
               <Route path={"/hof"} component={HallOfFame} />
               <Route path={"/profile"} component={ProfilePage} />
+              {isAdmin && <Route exact path={"/admin"} component={AdminPage} />}
+              {isAdmin && (
+                <Route path={"/admin/forecast"} component={AdminForecastPage} />
+              )}
+              {isAdmin && (
+                <Route path={"/admin/observed"} component={AdminPage} />
+              )}
+              {isAdmin && (
+                <Route path={"/admin/newUser"} component={AdminUserPage} />
+              )}
+              {isAdmin && (
+                <Route path={"/admin/forecastDate"} component={AdminPage} />
+              )}
+              {isAdmin && (
+                <Route path={"/admin/registration"} component={AdminPage} />
+              )}
               <Route>
                 <Redirect to={"/"} />
               </Route>

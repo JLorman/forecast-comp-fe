@@ -7,10 +7,11 @@ import TimelineIcon from "@material-ui/icons/Timeline";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import PublicIcon from "@material-ui/icons/Public";
-import GradeIcon from "@material-ui/icons/Grade";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import { Link } from "react-router-dom";
 import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
 import { StyledMenu, StyledMenuItem } from "./StyledMenu";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) =>
 
 export default function HamburgerNav() {
   const classes = useStyles();
+  const isAdmin = useSelector((store) => store.user?.isAdmin);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -87,6 +89,14 @@ export default function HamburgerNav() {
           </ListItemIcon>
           <ListItemText primary="Climatology" />
         </StyledMenuItem>
+        {isAdmin && (
+          <StyledMenuItem component={Link} to={"/admin"}>
+            <ListItemIcon>
+              <SupervisorAccountIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Admin" />
+          </StyledMenuItem>
+        )}
         {/*<StyledMenuItem component={Link} to={"/hof"}>*/}
         {/*  <ListItemIcon>*/}
         {/*    <GradeIcon fontSize="small" />*/}
