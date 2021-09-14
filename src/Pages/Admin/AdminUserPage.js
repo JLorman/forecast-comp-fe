@@ -212,7 +212,7 @@ export default function AdminUserPage() {
         </Alert>
       )}
       {requestPending && <LoadingSpinner color={theme.palette.primary.main} />}
-      {successForecast && (
+      {successRegistration && (
         <Alert onClose={handleSuccessClose} severity="success">
           User Created Successfully
         </Alert>
