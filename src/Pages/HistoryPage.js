@@ -1,21 +1,93 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
+import { DataGrid } from "@material-ui/data-grid";
+import { BackEnd } from "../Utils/HttpClient";
+import { useSelector } from "react-redux";
+const useStyles = makeStyles({
+  table: {
+    width: "125%",
+    height: 600,
+    margin: "auto",
   },
-  title: {
-    margin: theme.spacing(4),
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
-
+});
 export default function HistoryPage() {
   const classes = useStyles();
+  const userId = useSelector((store) => store.user.id);
+  const [userHistory, setUserHistory] = React.useState([]);
+
+  useEffect(() => {
+    // get forecast dates
+    if (userId) {
+      BackEnd.get(`score/user/history/${userId}`).then((resp) => {
+        if (resp?.status < 300) {
+          setUserHistory(resp.data);
+        }
+      });
+    }
+  }, [userId]);
+
+  const historyColumns = [
+    {
+      field: "forecastDate",
+      headerName: "Date",
+      type: "string",
+      width: 150,
+    },
+    {
+      field: "totalScore",
+      headerName: "Score",
+      type: "number",
+      width: 125,
+    },
+    {
+      field: "high",
+      headerName: "High",
+      type: "number",
+      width: 125,
+    },
+    {
+      field: "low",
+      headerName: "Low",
+      type: "number",
+      width: 150,
+    },
+    {
+      field: "precipCat",
+      headerName: "Precip",
+      type: "number",
+      width: 125,
+    },
+    {
+      field: "isSnow",
+      headerName: "Snow?",
+      type: "boolean",
+      width: 125,
+    },
+    {
+      field: "observedHigh",
+      headerName: "Obs. High",
+      type: "number",
+      width: 125,
+    },
+    {
+      field: "observedLow",
+      headerName: "Obs. Low",
+      type: "number",
+      width: 150,
+    },
+    {
+      field: "observedCat",
+      headerName: "Obs. Cat",
+      type: "number",
+      width: 125,
+    },
+    {
+      field: "observedType",
+      headerName: "Obs. Snow?",
+      type: "boolean",
+      width: 125,
+    },
+  ];
 
   return (
     <Grid
@@ -23,16 +95,21 @@ export default function HistoryPage() {
       direction="column"
       justifyContent="space-evenly"
       alignItems="center"
-      spacing={4}
     >
-      <Typography
-        variant={"h5"}
-        align={"center"}
-        color={"primary"}
-        className={classes.title}
-      >
-        Come back after the contest starts to see your results!
+      <br />
+      <br />
+      <Typography variant={"h4"} align={"center"} color={"primary"}>
+        Your History
       </Typography>
+      <div className={classes.table}>
+        <DataGrid
+          pageSize={100}
+          rows={userHistory}
+          columns={historyColumns}
+          rowsPerPageOptions={[5]}
+          sortModel={[{ field: "forecastDate", sort: "asc" }]}
+        />
+      </div>
     </Grid>
   );
 }
