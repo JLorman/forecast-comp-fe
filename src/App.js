@@ -19,6 +19,8 @@ import { updateStatus } from "./redux/actions/status";
 import AdminPage from "./Pages/Admin/AdminPage";
 import AdminForecastPage from "./Pages/Admin/AdminForecastPage";
 import AdminUserPage from "./Pages/Admin/AdminUserPage";
+import AdminObservationPage from "./Pages/Admin/AdminObservationPage";
+import AdminForecastDatePage from "./Pages/Admin/AdminForecastDatePage";
 
 const salisbury = createTheme({
   palette: {
@@ -82,13 +84,19 @@ export default function App() {
                 <Route path={"/admin/forecast"} component={AdminForecastPage} />
               )}
               {isAdmin && (
-                <Route path={"/admin/observed"} component={AdminPage} />
+                <Route
+                  path={"/admin/observed"}
+                  component={AdminObservationPage}
+                />
               )}
               {isAdmin && (
                 <Route path={"/admin/newUser"} component={AdminUserPage} />
               )}
               {isAdmin && (
-                <Route path={"/admin/forecastDate"} component={AdminPage} />
+                <Route
+                  path={"/admin/forecastDate"}
+                  component={AdminForecastDatePage}
+                />
               )}
               {isAdmin && (
                 <Route path={"/admin/registration"} component={AdminPage} />

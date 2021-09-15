@@ -84,7 +84,6 @@ export default function AdminPage() {
             color={"primary"}
             className={classes.card}
             onClick={handleOnClickObservation}
-            disabled={true}
           >
             Enter Observed Weather
           </Button>
@@ -105,7 +104,6 @@ export default function AdminPage() {
             color={"primary"}
             className={classes.card}
             onClick={handleOnClickForecastDate}
-            disabled={true}
           >
             Set Current Forecasting Date
           </Button>
