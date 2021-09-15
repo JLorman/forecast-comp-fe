@@ -1,27 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
+import { BackEnd } from "../Utils/HttpClient";
 const useStyles = makeStyles({
   table: {
     width: "100%",
-    height: 300,
+    height: 600,
     margin: "auto",
   },
 });
 export default function StandingsPage() {
   const classes = useStyles();
+  const [userStandings, setUserStandings] = React.useState([]);
+
+  useEffect(() => {
+    // get forecast dates
+    BackEnd.get(`score/all/standings`).then((resp) => {
+      if (resp?.status < 300) {
+        setUserStandings(resp.data);
+      }
+    });
+  }, []);
 
   const userColumns = [
     { field: "rankTotal", headerName: "Total Rank", width: 150 },
-    { field: "scoreTotal", headerName: "Total Score", width: 150 },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
+    { field: "scoreTotal", headerName: "Total Score", width: 150 },
     { field: "scoreTemp", headerName: "Temp Score", width: 200 },
+    { field: "rankTemp", headerName: "Temp Rank", width: 200 },
     { field: "scorePrecip", headerName: "Precip Score", width: 200 },
     { field: "rankPrecip", headerName: "Precip Rank", width: 200 },
   ];
 
-  const userStandings = [{ id: 0 }];
   return (
     <Grid
       container

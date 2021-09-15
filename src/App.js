@@ -43,7 +43,6 @@ export default function App() {
 
   BackEnd.get("status").then((resp) => {
     if (resp?.status < 300) {
-      console.log(resp.data);
       dispatch(updateStatus(resp.data));
     }
   });
