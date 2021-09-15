@@ -23,14 +23,39 @@ export default function StandingsPage() {
   }, []);
 
   const userColumns = [
-    { field: "rankTotal", headerName: "Total Rank", width: 150 },
+    {
+      field: "rankTotal",
+      headerName: "Total Rank",
+      type: "number",
+      width: 150,
+    },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
-    { field: "scoreTotal", headerName: "Total Score", width: 150 },
-    { field: "scoreTemp", headerName: "Temp Score", width: 200 },
-    { field: "rankTemp", headerName: "Temp Rank", width: 200 },
-    { field: "scorePrecip", headerName: "Precip Score", width: 200 },
-    { field: "rankPrecip", headerName: "Precip Rank", width: 200 },
+    {
+      field: "scoreTotal",
+      headerName: "Total Score",
+      type: "number",
+      width: 150,
+    },
+    {
+      field: "scoreTemp",
+      headerName: "Temp Score",
+      type: "number",
+      width: 200,
+    },
+    { field: "rankTemp", headerName: "Temp Rank", type: "number", width: 200 },
+    {
+      field: "scorePrecip",
+      headerName: "Precip Score",
+      type: "number",
+      width: 200,
+    },
+    {
+      field: "rankPrecip",
+      headerName: "Precip Rank",
+      type: "number",
+      width: 200,
+    },
   ];
 
   return (
@@ -51,6 +76,7 @@ export default function StandingsPage() {
           rows={userStandings}
           columns={userColumns}
           rowsPerPageOptions={[5]}
+          sortModel={[{ field: "rankTotal", sort: "asc" }]}
         />
       </div>
     </Grid>
