@@ -79,7 +79,7 @@ export default function ForecastPage() {
     setValues({ ...values, [prop]: value });
   };
 
-  const forecastDate = new Date(currentDate + "T00:00:00.000-05:00");
+  const forecastDate = new Date(currentDate + "T17:00:00.000-05:00");
   const deadlineDate = new Date(forecastDate);
   deadlineDate.setHours(17, 30, 0, 0);
   deadlineDate.setDate(deadlineDate.getDate() - 1);
