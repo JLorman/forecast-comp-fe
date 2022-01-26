@@ -44,7 +44,7 @@ export default function HomePage() {
         <br />
         <br />
         <Typography variant={"h4"} align={"center"} color={"primary"}>
-          Salisbury University DoGG
+          University of Delaware
         </Typography>
         <Typography variant={"h5"} align={"center"} color={"primary"}>
           Forecast Contest
@@ -91,8 +91,9 @@ export default function HomePage() {
           <br />
           <b>5.</b> If no forecast is submitted, the average climatological high
           and low for the forecast date will be substituted for your forecast
-          and a value corresponding to Category 3 (Based on Salisbury's average
-          annual precipitation total divided by 365 will be used)
+          and a value corresponding to Category 3 (Based on University of
+          Delware's average annual precipitation total divided by 365 will be
+          used)
         </Typography>
         <Typography variant={"h5"} align={"center"} color={"primary"}>
           Scoring

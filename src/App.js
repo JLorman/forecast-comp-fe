@@ -22,13 +22,13 @@ import AdminUserPage from "./Pages/Admin/AdminUserPage";
 import AdminObservationPage from "./Pages/Admin/AdminObservationPage";
 import AdminForecastDatePage from "./Pages/Admin/AdminForecastDatePage";
 
-const salisbury = createTheme({
+const delaware = createTheme({
   palette: {
     primary: {
-      main: "#800000",
+      main: "#00539F",
     },
     secondary: {
-      main: "#F7C55A",
+      main: "#FFD200",
     },
   },
 });
@@ -55,7 +55,7 @@ export default function App() {
   }
 
   return (
-    <MuiThemeProvider theme={salisbury}>
+    <MuiThemeProvider theme={delaware}>
       <BrowserRouter>
         {!token ? (
           <Switch>

@@ -110,7 +110,7 @@ export default function Login(props) {
         color={"primary"}
         className={classes.title}
       >
-        SU DoGG Forecast Contest
+        UD Forecast Contest
       </Typography>
       <FormControl
         className={clsx(classes.margin, classes.textField)}
