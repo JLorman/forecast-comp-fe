@@ -7,6 +7,7 @@ import TimelineIcon from "@material-ui/icons/Timeline";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import PublicIcon from "@material-ui/icons/Public";
+import StarIcon from '@material-ui/icons/Star';
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import { Link } from "react-router-dom";
 import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
@@ -89,6 +90,12 @@ export default function HamburgerNav() {
           </ListItemIcon>
           <ListItemText primary="Climatology" />
         </StyledMenuItem>
+        <StyledMenuItem component={Link} to={"/hof"}>
+          <ListItemIcon>
+            <StarIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Hall of Fame" />
+        </StyledMenuItem>
         {isAdmin && (
           <StyledMenuItem component={Link} to={"/admin"}>
             <ListItemIcon>
@@ -97,12 +104,6 @@ export default function HamburgerNav() {
             <ListItemText primary="Admin" />
           </StyledMenuItem>
         )}
-        {/*<StyledMenuItem component={Link} to={"/hof"}>*/}
-        {/*  <ListItemIcon>*/}
-        {/*    <GradeIcon fontSize="small" />*/}
-        {/*  </ListItemIcon>*/}
-        {/*  <ListItemText primary="Hall Of Fame" />*/}
-        {/*</StyledMenuItem>*/}
       </StyledMenu>
     </div>
   );
