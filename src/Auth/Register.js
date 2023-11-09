@@ -51,6 +51,7 @@ export default function Register() {
     password: "",
     firstName: "",
     lastName: "",
+    confPassword: "",
   });
 
   const [requestPending, setRequestPending] = React.useState(false);
@@ -63,6 +64,12 @@ export default function Register() {
 
   const validateEmail = (email) => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
+    }
+    return false;
+  };
+  const validatePassword = (password, confPassword) =>{
+    if (password === confPassword) {
       return true;
     }
     return false;
@@ -87,6 +94,11 @@ export default function Register() {
     }
     if (!validateEmail(values.email)) {
       setValidationError("Invalid Email Address.");
+      setRequestPending(false);
+      return;
+    }
+    if(!validatePassword(values.password, values.confPassword)){
+      setValidationError("Passwords do not match.");
       setRequestPending(false);
       return;
     }
@@ -184,6 +196,19 @@ export default function Register() {
           type="password"
           value={values.password}
           onChange={handleChange("password")}
+        />
+      </FormControl>
+      <FormControl
+        className={clsx(classes.margin, classes.textField)}
+        variant="outlined"
+      >
+        <InputLabel htmlFor="confPassword">Confirm Password</InputLabel>
+        <Input
+          id="confPassword"
+          variant="outlined"
+          type="password"
+          value={values.confPassword}
+          onChange={handleChange("confPassword")}
         />
       </FormControl>
       <Button

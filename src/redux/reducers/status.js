@@ -3,7 +3,7 @@ import { DEADLINE_REACHED, UPDATE_STATUS } from "../actions/status";
 const status = (
   state = {
     isForecastExpired: false,
-    registrationOpen: false,
+    registrationOpen: true,
   },
   { type, payload }
 ) => {
