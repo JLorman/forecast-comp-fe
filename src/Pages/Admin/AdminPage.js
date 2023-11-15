@@ -53,6 +53,10 @@ export default function AdminPage() {
     history.push("admin/registration");
   };
 
+  const handleOnClickHofUpload = () => {
+    history.push("admin/hofupload");
+  };
+
   return (
     <Grid
       container
@@ -127,6 +131,16 @@ export default function AdminPage() {
             disabled={true}
           >
             Turn Registration On/Off
+          </Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickHofUpload}
+          >
+            Upload Hall of Fame File
           </Button>
         </Grid>
       </Grid>
