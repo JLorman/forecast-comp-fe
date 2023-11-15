@@ -129,7 +129,7 @@ export default function Register() {
   };
 
   const handleEmailErrorClose = () => {
-    setEmailValidationError(false);
+    setValidationError(false);
     return;
   };
 

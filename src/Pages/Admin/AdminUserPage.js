@@ -126,7 +126,7 @@ export default function AdminUserPage() {
   };
 
   const handleEmailErrorClose = () => {
-    setEmailValidationError(false);
+    setValidationError(false);
     return;
   };
 
