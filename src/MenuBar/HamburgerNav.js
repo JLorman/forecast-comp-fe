@@ -41,9 +41,6 @@ export default function HamburgerNav() {
     setAnchorEl(null);
   };
 
-  const seeHOF = ()=>{
-    window.open(process.env.REACT_APP_API_URL+"hall-of-famers", "_blank") 
-  }
 
   return (
     <div>
@@ -94,7 +91,7 @@ export default function HamburgerNav() {
           </ListItemIcon>
           <ListItemText primary="Climatology" />
         </StyledMenuItem>
-        <StyledMenuItem onClick={(seeHOF)}>
+        <StyledMenuItem  component={Link} to={"/hof"}>
           <ListItemIcon>
             <StarIcon fontSize="small" />
           </ListItemIcon>

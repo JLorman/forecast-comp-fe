@@ -15,49 +15,6 @@ export default function HallOfFame() {
   const classes = useStyles();
   const [HallOfFame, setHallOfFame] = React.useState([]);
 
-  useEffect(() => {
-    // get hall of fame data
-    BackEnd.get(`/hall-of-fame`).then((resp) => {
-      if (resp?.status < 300) {
-        setHallOfFame(resp.data);
-      }
-    });
-  }, []);
-
-  const hofColumns = [
-    { field: "firstName", headerName: "First Name", width: 150 },
-    { field: "lastName", headerName: "Last Name", width: 150 },
-    {
-      field: "scoreTotal",
-      headerName: "Total Score",
-      type: "number",
-      width: 150,
-    },
-    {
-      field: "scoreTemp",
-      headerName: "Temp Score",
-      type: "number",
-      width: 150,
-    },
-    {
-      field: "scorePrecip",
-      headerName: "Precip Score",
-      type: "number",
-      width: 200,
-    },
-    {
-      field: "semester",
-      headerName: "Semester",
-      width: 150,
-    },
-    {
-      field: "year",
-      headerName: "Year",
-      type: "number",
-      width: 150,
-    },
-  ];
-
   return (
     <Grid
       container
@@ -71,13 +28,7 @@ export default function HallOfFame() {
         Hall of Fame
       </Typography>
       <div className={classes.table}>
-        <DataGrid
-          pageSize={100}
-           rows={HallOfFame}
-          columns={hofColumns}
-          rowsPerPageOptions={[10]}
-          sortModel={[{ field: "year", sort: "desc" }]}
-        />
+        <iframe src={process.env.REACT_APP_API_URL+"hall-of-famers"} title="description" width="900" height="600"></iframe>
         </div>
     </Grid>
   );
