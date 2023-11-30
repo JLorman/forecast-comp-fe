@@ -26,12 +26,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: "350px",
     padding: "15px",
-    margin: "15px",
   },
-  registrationLabel:{
-    padding: "0 15px",
-    margin: "15px"
-  }
 }));
 
 export default function AdminPage() {
@@ -65,8 +60,16 @@ export default function AdminPage() {
     history.push("admin/newUser");
   };
 
-  const handleOnClickRegistration = () => {
-    // todo update status on backend
+  const handleOnClickRegistration = async () => {
+    const resp = await BackEnd.put(
+      `status`,
+      { registrationOpen: !isRegistrationAllowed },
+      {},
+      {},
+      true,
+      true
+    );
+
     BackEnd.get("status").then((resp) => {
       if (resp?.status < 300) {
         dispatch(updateStatus(resp.data));
@@ -149,9 +152,7 @@ export default function AdminPage() {
           >
             Turn Registration On/Off
           </Button>
-          <Typography
-        color={"primary"}className={classes.registrationLabel}> {registrationMessage}</Typography>
-
+          <Typography color={"primary"}> {registrationMessage}</Typography>
         </Grid>
       </Grid>
     </Grid>
