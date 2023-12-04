@@ -21,6 +21,7 @@ import AdminForecastPage from "./Pages/Admin/AdminForecastPage";
 import AdminUserPage from "./Pages/Admin/AdminUserPage";
 import AdminObservationPage from "./Pages/Admin/AdminObservationPage";
 import AdminForecastDatePage from "./Pages/Admin/AdminForecastDatePage";
+import AdminResetPage from "./Pages/Admin/AdminResetPage"
 
 const salisbury = createTheme({
   palette: {
@@ -99,6 +100,9 @@ export default function App() {
               )}
               {isAdmin && (
                 <Route path={"/admin/registration"} component={AdminPage} />
+              )}
+              {isAdmin && (
+                <Route path={"/admin/reset"} component={AdminResetPage} />
               )}
               <Route>
                 <Redirect to={"/"} />

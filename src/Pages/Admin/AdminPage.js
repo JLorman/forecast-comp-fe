@@ -53,6 +53,10 @@ export default function AdminPage() {
     history.push("admin/registration");
   };
 
+  const handleOnClickResetCompetition = () => {
+    history.push("admin/reset")
+  }
+
   return (
     <Grid
       container
@@ -127,6 +131,16 @@ export default function AdminPage() {
             disabled={true}
           >
             Turn Registration On/Off
+          </Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickResetCompetition}
+          >
+            Reset Competition
           </Button>
         </Grid>
       </Grid>
