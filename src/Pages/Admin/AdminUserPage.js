@@ -45,6 +45,7 @@ export default function AdminUserPage() {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
+    confPassword: "",
     firstName: "",
     lastName: "",
   });
@@ -70,6 +71,13 @@ export default function AdminUserPage() {
     return false;
   };
 
+  const validatePassword = (password, confPassword) =>{
+    if (password === confPassword) {
+      return true;
+    }
+    return false;
+  };
+
   const validateFields = () => {
     let empty = false;
     Object.values(values).forEach((v) => {
@@ -84,6 +92,11 @@ export default function AdminUserPage() {
     setRequestPending(true);
     if (!validateEmail(values.email)) {
       setValidationError("Invalid Email Address.");
+      setRequestPending(false);
+      return;
+    }
+    if(!validatePassword(values.password, values.confPassword)){
+      setValidationError("Passwords do not match.");
       setRequestPending(false);
       return;
     }
@@ -113,7 +126,7 @@ export default function AdminUserPage() {
   };
 
   const handleEmailErrorClose = () => {
-    setEmailValidationError(false);
+    setValidationError(false);
     return;
   };
 
@@ -180,6 +193,19 @@ export default function AdminUserPage() {
           type="password"
           value={values.password}
           onChange={handleChange("password")}
+        />
+      </FormControl>
+      <FormControl
+        className={clsx(classes.margin, classes.textField)}
+        variant="outlined"
+      >
+        <InputLabel htmlFor="confPassword">Confirm Password</InputLabel>
+        <Input
+          id="confPassword"
+          variant="outlined"
+          type="password"
+          value={values.confPassword}
+          onChange={handleChange("confPassword")}
         />
       </FormControl>
       <Button
