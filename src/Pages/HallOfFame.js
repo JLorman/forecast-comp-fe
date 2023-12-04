@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     height: 500,
     margin: "auto",
   },
+  
 });
 
 export default function HallOfFame() {
@@ -27,8 +28,8 @@ export default function HallOfFame() {
       <Typography variant={"h4"} align={"center"} color={"primary"}>
         Hall of Fame
       </Typography>
-      <div className={classes.table}>
-        <iframe src={process.env.REACT_APP_API_URL+"hall-of-famers"} title="description" width="900" height="600"></iframe>
+      <div className={classes.table} align="center">
+      <iframe src={process.env.REACT_APP_API_URL+"hall-of-famers"} title="description" width="900" height="600" align="center"></iframe>
         </div>
     </Grid>
   );
