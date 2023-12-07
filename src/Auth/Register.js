@@ -42,10 +42,11 @@ export default function Register() {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  /*
   const isRegistrationAllowed = useSelector(
     (store) => store.status.registrationOpen
   );
-
+  */
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -80,11 +81,13 @@ export default function Register() {
 
   const handleSubmit = async () => {
     setRequestPending(true);
+    /*
     if (!isRegistrationAllowed) {
       setValidationError("Registration Closed.");
       setRequestPending(false);
       return;
     }
+    */
     if (!validateEmail(values.email)) {
       setValidationError("Invalid Email Address.");
       setRequestPending(false);

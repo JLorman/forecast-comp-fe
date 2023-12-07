@@ -59,7 +59,7 @@ export default function App() {
       <BrowserRouter>
         {!token ? (
           <Switch>
-            {isRegistrationAllowed && (
+            { (
               <Route path={"/register"} component={Register} />
             )}
             <Route path={"/login"} component={Login} />
