@@ -97,7 +97,9 @@ export default function HomePage() {
         <Typography variant={"h5"} align={"center"} color={"primary"}>
           Scoring
         </Typography>
-        <Typography variant={"body"}>
+        <div style={{ marginBottom: '20px' }}>
+
+        <Typography variant={"body"} >
           <b>1.</b> Temperature scores are calculated by the number of degrees
           missed for both high and low temperatures
           <br />
@@ -113,6 +115,7 @@ export default function HomePage() {
           score for the semester. The top five finishers in each category will
           be entered into our Forecasting Hall of Fame.
         </Typography>
+        </div>
       </Grid>
     </Grid>
   );
