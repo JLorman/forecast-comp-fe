@@ -22,6 +22,7 @@ import AdminUserPage from "./Pages/Admin/AdminUserPage";
 import AdminObservationPage from "./Pages/Admin/AdminObservationPage";
 import AdminForecastDatePage from "./Pages/Admin/AdminForecastDatePage";
 import AdminResetPage from "./Pages/Admin/AdminResetPage"
+import AdminHofUploadPage from "./Pages/Admin/AdminHofUpload"
 
 const salisbury = createTheme({
   palette: {
@@ -60,9 +61,9 @@ export default function App() {
       <BrowserRouter>
         {!token ? (
           <Switch>
-            {isRegistrationAllowed && (
+             {isRegistrationAllowed && ( 
               <Route path={"/register"} component={Register} />
-            )}
+             )} 
             <Route path={"/login"} component={Login} />
             <Route>
               <Redirect to={"/login"} />
@@ -103,6 +104,12 @@ export default function App() {
               )}
               {isAdmin && (
                 <Route path={"/admin/reset"} component={AdminResetPage} />
+              )}
+              {isAdmin && (
+                <Route
+                  path={"/admin/hofupload"}
+                  component={AdminHofUploadPage}
+                />
               )}
               <Route>
                 <Redirect to={"/"} />
