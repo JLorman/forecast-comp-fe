@@ -30,12 +30,28 @@ export default function AdminForecastDatePage() {
 
   const theme = useTheme();
 
-    const handleCompetionReset = ()=>{
+    const handleCompetionReset = async ()=>{
         var final_dates=[]
         for( var i=0; i<dates.length;i++){
             final_dates.push(dates[i].format('YYYY-MM-DD'))
         }
-        console.log(JSON.stringify(final_dates))
+        var final_array ={};
+        final_array["dates"]=final_dates;
+        console.log(JSON.stringify(final_array))
+        // setRequestPending(true);
+      const resp = await BackEnd.post(
+      `reset-competitions`,
+      final_array,
+      {},
+      {},
+      true,
+      true
+    );
+    if (resp?.status < 300) {
+      console.log("worked!")
+      // setSucxcessForecast(true);
+    }
+    // setRequestPending(false);
     }
 
 
