@@ -14,7 +14,6 @@ const useStyles = makeStyles({
 
 export default function HallOfFame() {
   const classes = useStyles();
-  const [HallOfFame, setHallOfFame] = React.useState([]);
 
   return (
     <Grid
