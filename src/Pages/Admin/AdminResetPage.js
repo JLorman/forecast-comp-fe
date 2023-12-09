@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
-import {Grid, Typography, makeStyles, Button} from "@material-ui/core";
+import React, { useState } from "react";
+import {Grid, Typography, makeStyles, Button, Dialog, DialogContent, DialogContentText, DialogTitle, DialogActions} from "@material-ui/core";
 import  { Calendar } from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import { useTheme } from "@material-ui/core/styles";
 import { BackEnd } from "../../Utils/HttpClient";
+import { useDispatch } from "react-redux";
+import { updateStatus } from "../../redux/actions/status";
+import { LoadingSpinner } from "../../Utils/LoadingSpinner";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,35 +29,76 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminForecastDatePage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [dates, setDates] = useState([])
+  const [resetComplete, setResetComplete]=useState(false);
+  const [showError,setShowError]=useState(false);
+  const [showMissingError,setShowMissingError]=useState(false);
+  const [requestPending, setRequestPending]=useState(false);
+  const [open, setOpen]=useState(false);
+
 
 
   const theme = useTheme();
 
     const handleCompetionReset = async ()=>{
-        var final_dates=[]
-        for( var i=0; i<dates.length;i++){
-            final_dates.push(dates[i].format('YYYY-MM-DD'))
-        }
-        var final_array ={};
-        final_array["dates"]=final_dates;
-        console.log(JSON.stringify(final_array))
-        // setRequestPending(true);
+      setOpen(false);
+      //process dates
+      var final_dates=[]
+      if(dates.length <=0){
+        setShowMissingError(true);
+        return;
+      }
+      for( var i=0; i<dates.length;i++){
+          final_dates.push(dates[i].format('YYYY-MM-DD'))
+      }
+      var final_array ={};
+      final_array["dates"]=final_dates.sort();
+
+      // send dates to backend to reset competition
+      setRequestPending(true);
       const resp = await BackEnd.post(
-      `reset-competitions`,
-      final_array,
-      {},
-      {},
-      true,
-      true
-    );
-    if (resp?.status < 300) {
-      console.log("worked!")
-      // setSucxcessForecast(true);
-    }
-    // setRequestPending(false);
+        `reset-competitions`,
+        final_array,
+        {},
+        {},
+        true,
+        true
+      );
+
+      if (resp?.status < 300) {
+        setResetComplete(true);
+        //update redux to get new forecast date
+        BackEnd.get("status").then((resp) => {
+          if (resp?.status < 300) {
+            dispatch(updateStatus(resp.data));
+          }
+        });
+      }
+      else{
+        setShowError(true);
+      }
+      setRequestPending(false);
     }
 
+    const handleSuccessClose = ()=>{
+      setResetComplete(false);
+    }
+
+    const handleErrorClose = ()=>{
+      setShowError(false);
+    }
+
+    const handleMissingClose = ()=>{
+      setShowMissingError(false);
+    }
+
+    const handleModalClose = ()=>{
+      setOpen(false);
+    }
+    const handleModalOpen = ()=>{
+      setOpen(true);
+    }
 
 
 
@@ -84,6 +129,7 @@ export default function AdminForecastDatePage() {
         <Calendar 
         value={dates}
         multiple
+        highlightToday={false}
         plugins={[
             <DatePanel />
            ]}
@@ -94,11 +140,45 @@ export default function AdminForecastDatePage() {
             variant={"contained"}
             color={"primary"}
             className={classes.card}
-            onClick={handleCompetionReset}
+            onClick={handleModalOpen}
           >
             Reset Competition
           </Button>
         </Grid>
+        {resetComplete && (
+          <Alert onClose={handleSuccessClose} severity="success">
+            Reset Completed.
+          </Alert>
+        )}
+        {showError && (
+          <Alert onClose={handleErrorClose} severity="error">
+            Error Occured During Reset.
+          </Alert>
+        )}
+        {showMissingError && (
+          <Alert onClose={handleMissingClose} severity="error">
+            Please select at least one date
+          </Alert>
+        )}
+        {requestPending && <LoadingSpinner color={theme.palette.primary.main} />}
+        <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+      <DialogTitle id="alert-dialog-title">
+        {"Are you sure you want to reset the competion?"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          This action can not be undone so make sure you no longer need last semester's forecast dates, users, observations, or scores.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleModalClose} variant={"contained"} className={classes.card}>Cancel</Button>
+        <Button onClick={handleCompetionReset} autoFocus color={"primary"} variant={"contained"} className={classes.card} >Continue</Button>
+      </DialogActions>
+    </Dialog>
   </Grid>
   );
 }

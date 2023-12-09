@@ -156,17 +156,6 @@ export default function AdminPage() {
             variant={"contained"}
             color={"primary"}
             className={classes.card}
-            onClick={handleOnClickRegistration}
-          >
-            Turn Registration On/Off
-          </Button>
-          <Typography color={"primary"}> {registrationMessage}</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Button
-            variant={"contained"}
-            color={"primary"}
-            className={classes.card}
             onClick={handleOnClickHofUpload}
           >
             Upload Hall of Fame File
@@ -181,6 +170,17 @@ export default function AdminPage() {
           >
             Reset Competition
           </Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickRegistration}
+          >
+            Turn Registration On/Off
+          </Button>
+          <Typography color={"primary"}> {registrationMessage}</Typography>
         </Grid>
       </Grid>
     </Grid>
