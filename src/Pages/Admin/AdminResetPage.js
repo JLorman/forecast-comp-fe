@@ -31,7 +31,7 @@ export default function AdminForecastDatePage() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [dates, setDates] = useState([])
-  const [resetComplete, setResetComplete]=useState(false);
+  const [showResetComplete, setShowResetComplete]=useState(false);
   const [showError,setShowError]=useState(false);
   const [showMissingError,setShowMissingError]=useState(false);
   const [requestPending, setRequestPending]=useState(false);
@@ -67,7 +67,7 @@ export default function AdminForecastDatePage() {
       );
 
       if (resp?.status < 300) {
-        setResetComplete(true);
+        setShowResetComplete(true);
         //update redux to get new forecast date
         BackEnd.get("status").then((resp) => {
           if (resp?.status < 300) {
@@ -82,7 +82,7 @@ export default function AdminForecastDatePage() {
     }
 
     const handleSuccessClose = ()=>{
-      setResetComplete(false);
+      setShowResetComplete(false);
     }
 
     const handleErrorClose = ()=>{
@@ -103,69 +103,68 @@ export default function AdminForecastDatePage() {
 
 
   return (
-    <Grid
+  <Grid
     container
     direction="column"
     justifyContent="space-evenly"
     alignItems="center"
     spacing={4}
   >
-        <Typography
-            variant={"h3"}
-            align={"center"}
-            color={"primary"}
-            className={classes.title}
-        >
-            Reset Competition
-        </Typography>
-        <Typography
-            variant={"h5"}
-            align={"center"}
-            color={"primary"}
-        >
-            Choose Competion Dates
-        </Typography>
+    <Typography
+        variant={"h3"}
+        align={"center"}
+        color={"primary"}
+        className={classes.title}
+    >
+        Reset Competition
+    </Typography>
+    <Typography
+        variant={"h5"}
+        align={"center"}
+        color={"primary"}
+    >
+        Choose Competion Dates
+    </Typography>
 
-        <Calendar 
-        value={dates}
-        multiple
-        highlightToday={false}
-        plugins={[
-            <DatePanel />
-           ]}
-        onChange={setDates}
-        />
-         <Grid item xs={4}>
-          <Button
-            variant={"contained"}
-            color={"primary"}
-            className={classes.card}
-            onClick={handleModalOpen}
-          >
-            Reset Competition
-          </Button>
-        </Grid>
-        {resetComplete && (
-          <Alert onClose={handleSuccessClose} severity="success">
-            Reset Completed.
-          </Alert>
-        )}
-        {showError && (
-          <Alert onClose={handleErrorClose} severity="error">
-            Error Occured During Reset.
-          </Alert>
-        )}
-        {showMissingError && (
-          <Alert onClose={handleMissingClose} severity="error">
-            Please select at least one date
-          </Alert>
-        )}
-        {requestPending && <LoadingSpinner color={theme.palette.primary.main} />}
-        <Dialog
-        open={open}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+    <Calendar 
+      value={dates}
+      multiple
+      highlightToday={false}
+      plugins={[
+          <DatePanel />
+        ]}
+      onChange={setDates}
+    />
+    <Grid item xs={4}>
+      <Button
+        variant={"contained"}
+        color={"primary"}
+        className={classes.card}
+        onClick={handleModalOpen}
       >
+        Reset Competition
+      </Button>
+    </Grid>
+    
+    {showResetComplete && (
+      <Alert onClose={handleSuccessClose} severity="success">
+        Reset Completed.
+      </Alert>
+    )}
+    {showError && (
+      <Alert onClose={handleErrorClose} severity="error">
+        Error Occured During Reset.
+      </Alert>
+    )}
+    {showMissingError && (
+      <Alert onClose={handleMissingClose} severity="error">
+        Please select at least one date
+      </Alert>
+    )}
+    {requestPending && <LoadingSpinner color={theme.palette.primary.main} />}
+
+
+    <Dialog open={open}>
       <DialogTitle id="alert-dialog-title">
         {"Are you sure you want to reset the competion?"}
       </DialogTitle>
@@ -179,6 +178,7 @@ export default function AdminForecastDatePage() {
         <Button onClick={handleCompetionReset} autoFocus color={"primary"} variant={"contained"} className={classes.card} >Continue</Button>
       </DialogActions>
     </Dialog>
+
   </Grid>
   );
 }
