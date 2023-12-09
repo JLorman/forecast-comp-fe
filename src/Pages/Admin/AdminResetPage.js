@@ -10,13 +10,13 @@ import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    margin: theme.spacing(4),
-    marginBottom: theme.spacing(4),
+    margin: theme.spacing(2),
   },
 }));
 
 export default function AdminForecastDatePage() {
   const classes = useStyles();
+  const theme = useTheme();
   const dispatch = useDispatch();
   const [dates, setDates] = useState([])
   const [showResetComplete, setShowResetComplete]=useState(false);
@@ -24,25 +24,22 @@ export default function AdminForecastDatePage() {
   const [showMissingError,setShowMissingError]=useState(false);
   const [requestPending, setRequestPending]=useState(false);
   const [open, setOpen]=useState(false);
-  const theme = useTheme();
 
   const handleCompetionReset = async ()=>{
     setOpen(false);
     //process dates
-    let final_dates=[]
     if(dates.length <=0){
       setShowMissingError(true);
       return;
     }
+    let final_dates=[]
     for( let i=0; i<dates.length;i++){
         final_dates.push(dates[i].format('YYYY-MM-DD'))
     }
-    let final_array ={};
-    final_array["dates"]=final_dates.sort();
-
     // send dates to backend to reset competition
     setRequestPending(true);
-    let resp = await BackEnd.post(`reset-competitions`, final_array, {}, {}, true, true);
+    let resp = await BackEnd.post(`reset-competitions`, {"dates":final_dates.sort()}, {}, {}, true, true);
+    setRequestPending(false);
 
     if (resp?.status < 300) {
       setShowResetComplete(true);
@@ -56,14 +53,13 @@ export default function AdminForecastDatePage() {
     else{
       setShowError(true);
     }
-    setRequestPending(false);
   }
       
   return (
   <Grid container direction="column" justifyContent="space-evenly" alignItems="center" spacing={4}>
 
     <Typography variant={"h3"} align={"center"} color={"primary"} className={classes.title}>Reset Competition</Typography>
-    <Typography variant={"h5"} align={"center"} color={"primary"}> Choose Competion Dates </Typography>
+    <Typography variant={"h5"} align={"center"} color={"primary"} className={classes.title}> Choose Competion Dates </Typography>
 
     <Calendar 
       value={dates}
