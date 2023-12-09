@@ -111,7 +111,7 @@ export default function AdminPage() {
         What would you like to do?
       </Typography>
       <Grid container direction="row" spacing={4} className={classes.grid}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -121,17 +121,7 @@ export default function AdminPage() {
             Enter Observed Weather
           </Button>
         </Grid>
-        <Grid item xs={4}>
-          <Button
-            variant={"contained"}
-            color={"primary"}
-            className={classes.card}
-            onClick={handleOnClickForecast}
-          >
-            Edit User's Forecast
-          </Button>
-        </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -141,7 +131,17 @@ export default function AdminPage() {
             Set Current Forecasting Date
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickForecast}
+          >
+            Edit User's Forecast
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -151,7 +151,18 @@ export default function AdminPage() {
             Create New user
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickRegistration}
+          >
+            Toggle Registration
+          </Button>
+          <Typography color={"primary"}> {registrationMessage}</Typography>
+        </Grid>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -161,7 +172,7 @@ export default function AdminPage() {
             Upload Hall of Fame File
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -170,17 +181,6 @@ export default function AdminPage() {
           >
             Reset Competition
           </Button>
-        </Grid>
-        <Grid item xs={4}>
-          <Button
-            variant={"contained"}
-            color={"primary"}
-            className={classes.card}
-            onClick={handleOnClickRegistration}
-          >
-            Turn Registration On/Off
-          </Button>
-          <Typography color={"primary"}> {registrationMessage}</Typography>
         </Grid>
       </Grid>
     </Grid>
