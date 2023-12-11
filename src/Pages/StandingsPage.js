@@ -4,7 +4,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { BackEnd } from "../Utils/HttpClient";
 const useStyles = makeStyles({
   table: {
-    width: "75%",
+    width: "100%",
     height: 900,
     margin: "auto",
   },
