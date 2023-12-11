@@ -9608,6 +9608,11 @@
   dependencies:
     "prop-types" "^15.7.2"
 
+"react-date-object@^2.1.8":
+  "integrity" "sha512-94zg/9r29v/VsKsJT0E5+tPg85IyMirkU/B7qBWlhT7RDSuf9x5dczfbQOsj9TbzSVUK/Vx/ZDboOBy9hA381w=="
+  "resolved" "https://registry.npmjs.org/react-date-object/-/react-date-object-2.1.8.tgz"
+  "version" "2.1.8"
+
 "react-dev-utils@^11.0.3":
   "integrity" "sha512-dx0LvIGHcOPtKbeiSUM4jqpBl3TcY7CDjZdfOIcKeznE7BWr9dg0iPG90G5yfVQ+p/rGNMXdbfStvzQZEVEi4A=="
   "resolved" "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz"
