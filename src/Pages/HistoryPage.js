@@ -5,7 +5,7 @@ import { BackEnd } from "../Utils/HttpClient";
 import { useSelector } from "react-redux";
 const useStyles = makeStyles({
   table: {
-    width: "75%",
+    width: "100%",
     height: 900,
     margin: "auto",
   },
