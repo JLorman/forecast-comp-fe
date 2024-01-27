@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 
 export default function HallOfFame() {
   const classes = useStyles();
+  const reactAPI = process.env.REACT_APP_API_URL || "https://sudogg-be.azurewebsites.net/";
 
   return (
     <Grid
@@ -28,7 +29,7 @@ export default function HallOfFame() {
         Hall of Fame
       </Typography>
       <div className={classes.table} align="center">
-      <iframe src={process.env.REACT_APP_API_URL+"hall-of-famers"} title="description" width="900" height="600" align="center"></iframe>
+      <iframe src={reactAPI+"hall-of-famers"} title="description" width="900" height="600" align="center"></iframe>
         </div>
     </Grid>
   );
