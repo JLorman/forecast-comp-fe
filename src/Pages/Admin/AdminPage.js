@@ -1,8 +1,9 @@
-import React from "react";
-import { Button, Card, Grid, makeStyles, Typography } from "@material-ui/core";
-import Modal from "@material-ui/core/Modal";
+import React, { useEffect, useState } from "react";
+import { Button, Grid, makeStyles, Typography, Chip } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { BackEnd } from "../../Utils/HttpClient";
+import { updateStatus } from "../../redux/actions/status";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -25,13 +26,23 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: "350px",
     padding: "15px",
-    margin: "15px",
   },
 }));
 
 export default function AdminPage() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
+  const [registrationMessage, setRegistrationMessage]= useState();
+  const isRegistrationAllowed = useSelector(
+    (store) => store.status.registrationOpen
+  );
+
+  useEffect(()=>{
+    var message="Registration is currently " + (isRegistrationAllowed ? 'on' : 'off');
+    setRegistrationMessage(message);
+
+  },[isRegistrationAllowed])
 
   const handleOnClickObservation = () => {
     history.push("admin/observed");
@@ -49,9 +60,31 @@ export default function AdminPage() {
     history.push("admin/newUser");
   };
 
-  const handleOnClickRegistration = () => {
-    history.push("admin/registration");
+  const handleOnClickRegistration = async () => {
+    const resp = await BackEnd.put(
+      `status`,
+      { registrationOpen: !isRegistrationAllowed },
+      {},
+      {},
+      true,
+      true
+    );
+
+    BackEnd.get("status").then((resp) => {
+      if (resp?.status < 300) {
+        dispatch(updateStatus(resp.data));
+      }
+    });
+
   };
+
+  const handleOnClickHofUpload = () => {
+    history.push("admin/hofupload");
+  };
+
+  const handleOnClickResetCompetition = () => {
+    history.push("admin/reset")
+  }
 
   return (
     <Grid
@@ -78,7 +111,7 @@ export default function AdminPage() {
         What would you like to do?
       </Typography>
       <Grid container direction="row" spacing={4} className={classes.grid}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -88,17 +121,7 @@ export default function AdminPage() {
             Enter Observed Weather
           </Button>
         </Grid>
-        <Grid item xs={4}>
-          <Button
-            variant={"contained"}
-            color={"primary"}
-            className={classes.card}
-            onClick={handleOnClickForecast}
-          >
-            Edit User's Forecast
-          </Button>
-        </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -108,7 +131,17 @@ export default function AdminPage() {
             Set Current Forecasting Date
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickForecast}
+          >
+            Edit User's Forecast
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
@@ -118,15 +151,35 @@ export default function AdminPage() {
             Create New user
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button
             variant={"contained"}
             color={"primary"}
             className={classes.card}
             onClick={handleOnClickRegistration}
-            disabled={true}
           >
-            Turn Registration On/Off
+            Toggle Registration
+          </Button>
+          <Typography color={"primary"}> {registrationMessage}</Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickHofUpload}
+          >
+            Upload Hall of Fame File
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            className={classes.card}
+            onClick={handleOnClickResetCompetition}
+          >
+            Reset Competition
           </Button>
         </Grid>
       </Grid>
